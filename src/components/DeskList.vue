@@ -71,7 +71,7 @@ export default {
   margin-top: 8px;
 }
 .items {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   max-height: calc(100vh - 309px);
   margin-bottom: 8px;

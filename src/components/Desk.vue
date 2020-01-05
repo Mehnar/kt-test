@@ -24,7 +24,7 @@ import * as types from '@/store/types';
 async function routeHook(page) {
   try {
     const tasks = await store.dispatch(types.FETCH_ALL_TASKS, page);
-    return !!tasks.length;
+    return (!!tasks.length || (Number(page) === 1));
   } catch (e) {
     console.error(e);
     return false;
