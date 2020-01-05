@@ -141,7 +141,6 @@ export default {
   &-leave-to {
     transform: translateX(-10px);
     opacity: 0;
-    width: 0;
   }
 }
 .item {

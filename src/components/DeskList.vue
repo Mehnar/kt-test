@@ -16,7 +16,7 @@
       <span
         v-else
       >
-        There is no messages yet...
+        There is no tasks yet...
       </span>
     </div>
     <el-pagination
