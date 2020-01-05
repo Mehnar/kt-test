@@ -1,0 +1,64 @@
+@mixin desk {
+  width: 400px;
+  background-color: #ebecf0;
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 6px;
+  margin-top: 50px;
+  max-height: calc(100vh - 100px);
+
+  @media screen and (max-width: 400px) {
+    width: 100%;
+  }
+  @media screen and (max-height: 450px) {
+    margin-top: 0;
+    max-height: 100%;
+  }
+}
+
+@mixin header {
+  display: flex;
+
+  & .title {
+    color: #172b4d;
+    
+    font-weight: 600;
+    margin: 0 0 0 5px;
+    padding: 0;
+    text-align: left;
+    padding: 8px;
+  }
+}
+
+@mixin textarea {
+  width: 100%;
+  background-color: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+  padding: 8px;
+  text-decoration: none;
+  resize: none;
+  outline: none;
+  border: none;
+  box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: $dark-gray;
+
+  &::placeholder {
+    color: $gray;
+  }
+}
+
+@mixin action-button {
+  display: block;
+  text-decoration: none;
+  border: none;
+  outline: none;
+  padding: 6px 12px;
+  line-height: 20px;
+  border-radius: 3px;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(9, 30, 66, 0.25);
+  transition: background-color 0.3s linear;
+}
