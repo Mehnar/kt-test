@@ -5,6 +5,7 @@
     >
       <textarea
         v-model="editorText"
+        ref="textarea"
         class="textarea"
         placeholder="Enter a title for this card..."
         rows="3"
@@ -115,6 +116,9 @@ export default {
       return Number(this.$route.params.page);
     },
   },
+  mounted() {
+    this.$refs.textarea.focus();
+  },
   methods: {
     toggleEditing() {
       this.isEditorOpened = !this.isEditorOpened;
@@ -134,6 +138,7 @@ export default {
           message: 'Successfully added.',
           type: 'success',
           duration: 2000,
+          showClose: true,
         });
       } catch (e) {
         console.error(e);

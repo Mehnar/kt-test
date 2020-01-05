@@ -82,6 +82,7 @@ export default {
           message: 'Successfully deleted.',
           type: 'success',
           duration: 2000,
+          showClose: true,
         });
         const page = Number(this.$route.params.page);
         const tasks = this.$store.getters[this.$types.GET_SHOWING_TASKS](page, this.$store.state.orderOfSorting);
@@ -106,6 +107,7 @@ export default {
           message: 'Successfully changed status.',
           type: 'success',
           duration: 2000,
+          showClose: true,
         });
       } catch (e) {
         console.error(e);

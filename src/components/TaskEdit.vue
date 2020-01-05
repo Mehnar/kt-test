@@ -7,6 +7,7 @@
     </div>
     <textarea
       v-model="currentTask.text"
+      ref="textarea"
       class="textarea"
       placeholder="Enter a title for this card..."
       rows="3"
@@ -72,6 +73,7 @@ export default {
     if (await routeHook(to.params.id)) {
       next();
       Bus.$emit('preloader:deactive');
+      this.$refs.textarea.focus();
       return;
     }
     if (to.query.page) {
@@ -94,6 +96,9 @@ export default {
       next('/page/1');
     }
     Bus.$emit('preloader:deactive');
+  },
+  mounted() {
+    this.$refs.textarea.focus();
   },
   watch: {
     '$store.state.Task.currentTask': {
@@ -118,6 +123,7 @@ export default {
           message: 'Successfully edited.',
           type: 'success',
           duration: 2000,
+          showClose: true,
         });
         this.cancel();
       } catch (e) {
