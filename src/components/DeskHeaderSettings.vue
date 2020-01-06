@@ -25,16 +25,8 @@ export default {
       },
       set(newValue) {
         this.$store.commit(this.$types.SET_ORDER_OF_SORTING, newValue);
-        this.fetchTasks();
       },
     }
-  },
-  methods: {
-    async fetchTasks() {
-      this.$preloader.active();
-      await this.$store.dispatch(this.$types.FETCH_ALL_TASKS, this.$route.params.page);
-      this.$preloader.deactive();
-    },
   },
 };
 </script>

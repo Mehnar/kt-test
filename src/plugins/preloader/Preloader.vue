@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="isActive"
+    v-show="isActive"
     class="preloader-background"
   >
     <div
@@ -46,6 +46,7 @@ export default {
     },
     deactivate() {
       if (this.isDelayOut) {
+        clearTimeout(this.timer);
         this.isActive = false;
         this.isDelayOut = false;
       } else {
@@ -63,6 +64,8 @@ export default {
   }
 }
 .preloader-background {
+  left: 0;
+  top: 0;
   position: fixed;
   width: 100%;
   height: 100%;

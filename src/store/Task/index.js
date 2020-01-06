@@ -8,6 +8,7 @@ export default {
     allTasks: [],
     countOfTasks: 0,
     currentTask: {},
+    tasks: [],
   },
   getters,
   mutations,

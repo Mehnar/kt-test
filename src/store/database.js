@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { firestorePlugin } from 'vuefire';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
-const { FieldValue } = firebase.firestore;
+const { Timestamp } = firebase.firestore;
 
 Vue.use(firestorePlugin);
 firebase.initializeApp({
@@ -11,4 +11,4 @@ firebase.initializeApp({
 })
 
 export const db = firebase.firestore();
-export { FieldValue };
+export { Timestamp };

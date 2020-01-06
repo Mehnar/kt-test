@@ -19,7 +19,7 @@
         class="item-text"
         @click.self="onclickTask(task.id)"
       >
-        {{ `${task.index}) ${task.text}` }}
+        {{ task.text }}
       </p>
       <transition name="edit-button">
         <base-icon-button
@@ -73,47 +73,32 @@ export default {
     setMouseEnter(val) {
       this.mouseEnter = val;
     },
-    async deleteTask() {
-      this.$preloader.active();
-      try {
-        await this.$store.dispatch(this.$types.DELETE_TASK, this.task.id);
-        await this.$store.dispatch(this.$types.FETCH_ALL_TASKS);
+    deleteTask() {
+      this.$store.dispatch(this.$types.DELETE_TASK, this.task.id).then(() => {
         this.$message({
           message: 'Successfully deleted.',
           type: 'success',
           duration: 2000,
           showClose: true,
         });
-        const page = Number(this.$route.params.page);
-        const tasks = this.$store.getters[this.$types.GET_SHOWING_TASKS](page, this.$store.state.orderOfSorting);
-        if (tasks.length === 0 && page !== 1) {
-          this.$router.push(`/page/${page - 1}`);
-        }
-      } catch (e) {
-        console.error(e);
-        this.$message.error('An error occured, see the console.');
+      });
+      const page = Number(this.$route.params.page);
+      const tasks = this.$store.getters[this.$types.GET_SHOWING_TASKS](page, this.$store.state.orderOfSorting);
+      if (tasks.length === 0 && page !== 1) {
+        this.$router.push(`/page/${page - 1}`);
       }
-      this.$preloader.deactive();
     },
     async setStatus(event) {
-      this.$preloader.active();
-      try {
-        await this.$store.dispatch(this.$types.UPDATE_TASK_STATUS, {
-          id: this.task.id,
-          status: event,
-        });
-        await this.$store.dispatch(this.$types.FETCH_ALL_TASKS);
-        this.$message({
-          message: 'Successfully changed status.',
-          type: 'success',
-          duration: 2000,
-          showClose: true,
-        });
-      } catch (e) {
-        console.error(e);
-        this.$message.error('An error occured, see the console.');
-      }
-      this.$preloader.deactive();
+      await this.$store.dispatch(this.$types.UPDATE_TASK_STATUS, {
+        id: this.task.id,
+        status: event,
+      });
+      this.$message({
+        message: 'Successfully changed status.',
+        type: 'success',
+        duration: 2000,
+        showClose: true,
+      });
     },
     onchange(event) {
       this.debouncedSetStatus(event);

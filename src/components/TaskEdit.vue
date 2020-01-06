@@ -43,19 +43,7 @@
 <script>
 import pick from 'lodash/pick';
 import store from '@/store';
-import Bus from '@/bus';
 import * as types from '@/store/types';
-
-async function routeHook(id) {
-  try {
-    const task = await store.dispatch(types.FETCH_TASK_BY_ID, id);
-    return !!task;
-  } catch (e) {
-    console.error(e);
-    this.$message.error('An error occured, see the console.');
-    return false;
-  }
-}
 
 export default {
   name: 'TaskEdit',
@@ -69,11 +57,11 @@ export default {
     }
   },
   async beforeRouteEnter(to, from, next) {
-    Bus.$emit('preloader:active');
-    if (await routeHook(to.params.id)) {
+    const id = to.params.id;
+    const task = store.getters[types.GET_TASK_BY_ID](id);
+    if (task) {
+      store.commit(types.SET_CURRENT_TASK, task);
       next();
-      Bus.$emit('preloader:deactive');
-      this.$refs.textarea.focus();
       return;
     }
     if (to.query.page) {
@@ -81,13 +69,13 @@ export default {
     } else {
       next('/page/1');
     }
-    Bus.$emit('preloader:deactive');
   },
   async beforeRouteUpdate(to, from, next) {
-    Bus.$emit('preloader:active');
-    if (await routeHook(to.params.id)) {
+    const id = to.params.id;
+    const task = store.getters[types.GET_TASK_BY_ID](id);
+    if (task) {
+      store.commit(types.SET_CURRENT_TASK, task);
       next();
-      Bus.$emit('preloader:deactive');
       return;
     }
     if (to.query.page) {
@@ -95,7 +83,6 @@ export default {
     } else {
       next('/page/1');
     }
-    Bus.$emit('preloader:deactive');
   },
   mounted() {
     this.$refs.textarea.focus();
@@ -109,28 +96,22 @@ export default {
     }
   },
   methods: {
-    async save() {
-      this.$preloader.active();
-      try {
-        await this.$store.dispatch(this.$types.UPDATE_TASK, {
-          id: this.currentTask.id,
-          task: {
-            text: this.currentTask.text,
-            completed: this.currentTask.completed,
-          }
-        });
+    save() {
+      this.$store.dispatch(this.$types.UPDATE_TASK, {
+        id: this.$route.params.id,
+        task: {
+          text: this.currentTask.text,
+          completed: this.currentTask.completed,
+        }
+      }).then(() => {
         this.$message({
           message: 'Successfully edited.',
           type: 'success',
           duration: 2000,
           showClose: true,
         });
-        this.cancel();
-      } catch (e) {
-        console.error(e);
-        this.$message.error('An error occured, see the console.');
-      }
-      this.$preloader.deactive();
+      });
+      this.cancel();
     },
     cancel() {
       const page = this.$route.query.page;

@@ -125,26 +125,18 @@ export default {
     },
     async createTask() {
       if (!this.editorText) return;
-      this.$preloader.active();
-      try {
-        await this.$store.dispatch(this.$types.CREATE_TASK, this.editorText);
-        if (this.currentPage === 1) {
-          await this.$store.dispatch(this.$types.FETCH_ALL_TASKS);
-        } else {
-          this.$router.push('/page/1');
-        }
-        this.editorText = '';
+      this.$store.dispatch(this.$types.CREATE_TASK, this.editorText).then(() => {
         this.$message({
           message: 'Successfully added.',
           type: 'success',
           duration: 2000,
           showClose: true,
         });
-      } catch (e) {
-        console.error(e);
-        this.$message.error('An error occured, see the console.');
+      });
+      if (this.currentPage !== 1) {
+        this.$router.push('/page/1');
       }
-      this.$preloader.deactive();
+      this.editorText = '';
     },
   }
 }

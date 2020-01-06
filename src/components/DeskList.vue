@@ -48,11 +48,10 @@ export default {
   },
   computed: {
     tasks() {
-      const test = this.$store.getters[this.$types.GET_SHOWING_TASKS](this.currentPage, this.$store.state.orderOfSorting);
-      return test;
+      return this.$store.getters[this.$types.GET_SHOWING_TASKS](this.currentPage, this.$store.state.orderOfSorting);
     },
     countOfTasks() {
-      return this.$store.state.Task.countOfTasks;
+      return this.$store.state.Task.tasks.length;
     },
     currentPage() {
       return Number(this.$route.params.page);

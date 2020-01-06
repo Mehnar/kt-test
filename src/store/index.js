@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate";
+import { vuexfireMutations } from 'vuexfire';
 
 import mutations from './mutations';
 import getters from './getters';
@@ -16,7 +17,10 @@ export default new Vuex.Store({
     orderOfSorting: 'asc',
   },
   getters,
-  mutations,
+  mutations: {
+    ...vuexfireMutations,
+    ...mutations,
+  },
   actions,
   modules: {
     Task,
